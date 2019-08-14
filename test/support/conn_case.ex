@@ -25,4 +25,8 @@ defmodule FlyiinWeb.ConnCase do
       @endpoint FlyiinWeb.Endpoint
     end
   end
+
+  setup _tags do
+    {:ok, conn: Phoenix.ConnTest.build_conn()}
+  end
 end
