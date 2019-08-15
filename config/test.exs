@@ -8,3 +8,5 @@ config :flyiin, FlyiinWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :flyiin, :executor, Flyiin.FlightMock

@@ -19,8 +19,7 @@ defmodule Flyiin.MixProject do
   def application do
     [
       mod: {Flyiin.Application, []},
-      applications: [:httpotion],
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :httpotion, :mox]
     ]
   end
 
@@ -41,6 +40,7 @@ defmodule Flyiin.MixProject do
       {:jason, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
       {:httpotion, "~> 3.1.0"},
+      {:mox, "~>0.5", only: :test},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
     ]
   end

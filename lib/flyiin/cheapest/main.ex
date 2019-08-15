@@ -7,7 +7,7 @@ defmodule Flyiin.Cheapest.Main do
     Jason.encode!(%{data: %{cheapestOffer: airline}})
   end
 
-  def cheapest_airline(airlines) when length(airlines) == 0 do
+  def cheapest_airline(airlines) when airlines == [] do
     extract_json(%{})
   end
 
@@ -16,7 +16,7 @@ defmodule Flyiin.Cheapest.Main do
   end
 
   def cheapest_airline(airlines) do
-    airline = Enum.min_by(airlines, &Map.get(&1,:amount))
+    airline = Enum.min_by(airlines, &Map.get(&1, :amount))
     extract_json(airline)
   end
 end

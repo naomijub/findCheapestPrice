@@ -6,7 +6,7 @@ defmodule FlyiinWeb.Router do
   end
 
   forward "/healthcheck", Healthcheck
-  forward "", Background.Plug
+  forward "/", Background.Plug
 
   # scope "/", FlyiinWeb do
   #   pipe_through :browser

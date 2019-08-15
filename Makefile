@@ -10,5 +10,8 @@ format:
 outdated:
 	mix hex.outdated
 
+test:
+	mix test
+
 run:
 	MIX_ENV=dev mix phx.server

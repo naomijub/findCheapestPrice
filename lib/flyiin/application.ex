@@ -11,7 +11,6 @@ defmodule Flyiin.Application do
       # Start the endpoint when the application starts
       FlyiinWeb.Endpoint
       # Starts a worker by calling: Flyiin.Worker.start_link(arg)
-      # {Flyiin.Worker, arg},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
