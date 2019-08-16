@@ -1,5 +1,6 @@
 defmodule Flyiin.Cheapest.Http.MainTest do
   import Mox
+  import SweetXml
   use ExUnit.Case, async: true
   alias Flight.Factory
   alias Flyiin.Cheapest.Http.Main
@@ -29,6 +30,16 @@ defmodule Flyiin.Cheapest.Http.MainTest do
 
       assert expected == actual
       assert Map.get(actual, :status_code) == 200
+    end
+
+    test "XML" do
+      # Factory.af_flight()
+      # |> Map.get(:body)
+      # |> xpath(~x".//AirlineOffers/Offer/TotalPrice/DetailCurrencyPrice/Total/text()"l)
+      # |> Enum.map(fn x -> to_string(x) |> Float.parse |> elem(0)  end)
+      # |> Enum.min
+      alias Flyiin.Cheapest.Airlines
+      assert true
     end
   end
 end

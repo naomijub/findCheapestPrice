@@ -2,6 +2,9 @@ defmodule Flyiin.Cheapest.Airlines do
   @moduledoc """
   Module responsable for determine the cheapest 
   """
+  import SweetXml
+  alias Flyiin.Cheapest.Http.Main
+
   @airlines [
     %{
       name: "BA",
@@ -11,10 +14,11 @@ defmodule Flyiin.Cheapest.Airlines do
         {"Content-Type", "application/xml"},
         {"Soapaction", "AirShoppingV01"}
       ],
-      body: "Airlines.ba_request_body/3"
+      body: "&Airlines.ba_request_body/3",
+      xpath: ~x".//AirlineOffers/AirlineOffer/TotalPrice/SimpleCurrencyPrice/text()"l
     },
     %{
-      name: "AF",
+      name: "AFKL",
       url: "https://ndc-rct.airfranceklm.com/passenger/distribmgmt/001448v01/EXT",
       headers: [
         {"SOAPAction",
@@ -22,7 +26,8 @@ defmodule Flyiin.Cheapest.Airlines do
         {"Content-Type", "text/xml"},
         {"api_key", "mdug6d7y75e36vvpa487j5k7"}
       ],
-      body: "Airlines.af_request_body/3"
+      body: "&Airlines.af_request_body/3",
+      xpath: ~x".//AirlineOffers/Offer/TotalPrice/DetailCurrencyPrice/Total/text()"l
     }
   ]
 
@@ -37,4 +42,18 @@ defmodule Flyiin.Cheapest.Airlines do
       origin
     }</AirportCode><Date>#{date}</Date></Departure><Arrival><AirportCode>#{destination}</AirportCode></Arrival></OriginDestination></OriginDestinations></CoreQuery><Preference><CabinPreferences><CabinType><Code>1</Code></CabinType></CabinPreferences></Preference><DataLists><PassengerList><Passenger><PTC>ADT</PTC></Passenger></PassengerList></DataLists></AirShoppingRQ></soapenv:Body></soapenv:Envelope>)
   end
+
+  def to_func(airline) do
+    {fun, []} = @airlines
+      |>Enum.find(fn x -> Map.fetch(x,:name) == {:ok,airline} end)
+      |> Map.get(:body)
+      |> Code.eval_string
+    fun
+  end
+
+  # def fetch_arilines_pricing(origin, destination, date) do
+  #   available_airlines = Enum.Map(@airlines, &Map.get(&1,:name))
+  #   # Enum.find(a,fn x -> Map.fetch(x,:name) == {:ok,"BA"} end)
+  #   available_airlines
+  # end
 end

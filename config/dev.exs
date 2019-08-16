@@ -63,3 +63,5 @@ config :phoenix, :stacktrace_depth, 10
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :flyiin, :executor, Flyiin.Cheapest.Http.Executor

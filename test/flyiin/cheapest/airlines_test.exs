@@ -25,4 +25,14 @@ defmodule Flyiin.Cheapest.AirlinesTest do
                "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Header/><soapenv:Body xmlns=\"http://www.iata.org/IATA/EDIST/2017.1\"><AirShoppingRQ Version=\"17.1\"><Document/><Party><Sender><TravelAgencySender><Name>Test</Name><PseudoCity>PARMM211L</PseudoCity><IATA_Number>12345675</IATA_Number><AgencyID>id</AgencyID></TravelAgencySender></Sender><Recipient><ORA_Recipient><AirlineID>AF</AirlineID></ORA_Recipient></Recipient></Party><CoreQuery><OriginDestinations><OriginDestination><Departure><AirportCode>NKT</AirportCode><Date>13-03-2021</Date></Departure><Arrival><AirportCode>MUC</AirportCode></Arrival></OriginDestination></OriginDestinations></CoreQuery><Preference><CabinPreferences><CabinType><Code>1</Code></CabinType></CabinPreferences></Preference><DataLists><PassengerList><Passenger><PTC>ADT</PTC></Passenger></PassengerList></DataLists></AirShoppingRQ></soapenv:Body></soapenv:Envelope>"
     end
   end
+
+  describe "Function transformation" do
+    test "gets function for BA" do
+      assert Kernel.inspect(Airlines.to_func("BA")) == "&Airlines.ba_request_body/3"
+    end
+
+    test "gets function for AFKL" do
+      assert Kernel.inspect(Airlines.to_func("AFKL")) == "&Airlines.af_request_body/3"
+    end
+  end
 end
