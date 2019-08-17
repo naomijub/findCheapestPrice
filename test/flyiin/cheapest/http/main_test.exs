@@ -1,6 +1,5 @@
 defmodule Flyiin.Cheapest.Http.MainTest do
   import Mox
-  import SweetXml
   use ExUnit.Case, async: true
   alias Flight.Factory
   alias Flyiin.Cheapest.Http.Main

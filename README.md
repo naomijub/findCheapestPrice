@@ -29,7 +29,6 @@ I forgot in the first commit to read the `api_keys` from the `env_vars`, as they
 obs. AFKL API was having problems to respond.
 
 # TODO
-- [ ] Request date is incorrectly formated -> 400
-- [ ] Request iatas dont have 3 letters -> 400
-- [ ] Task return != 2xx for one request
-- [ ] Task return != 2xx for all request -> 204
+- [x] Request date is incorrectly formated -> 400
+- [x] Request iatas dont have 3 letters -> 400
+- [x] Task return != 2xx for one request

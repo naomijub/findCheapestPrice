@@ -4,6 +4,7 @@ defmodule FlyiinWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
+
   scope "/findCheapestOffer", FlyiinWeb do
     pipe_through :api
 
