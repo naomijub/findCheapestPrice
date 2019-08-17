@@ -28,7 +28,7 @@ defmodule Flyiin.Cheapest.AirlinesTest do
 
   describe "Airlines processing" do
     test "Get available airlines" do
-      assert Airlines.get_available_airlines([]) == ["BA", "AFKL"]
+      assert Airlines.get_available_airlines() == ["BA", "AFKL"]
     end
   end
 end

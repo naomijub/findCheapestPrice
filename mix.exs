@@ -24,7 +24,7 @@ defmodule Flyiin.MixProject do
   end
 
   defp applications(:test), do: applications(:default) ++ [:mox]
-  defp applications(_),     do: [:logger, :runtime_tools, :httpotion]
+  defp applications(_), do: [:logger, :runtime_tools, :httpotion]
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]

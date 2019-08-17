@@ -46,7 +46,7 @@ defmodule Flyiin.Cheapest.Airlines do
     }</AirportCode><Date>#{date}</Date></Departure><Arrival><AirportCode>#{destination}</AirportCode></Arrival></OriginDestination></OriginDestinations></CoreQuery><Preference><CabinPreferences><CabinType><Code>1</Code></CabinType></CabinPreferences></Preference><DataLists><PassengerList><Passenger><PTC>ADT</PTC></Passenger></PassengerList></DataLists></AirShoppingRQ></soapenv:Body></soapenv:Envelope>)
   end
 
-  def get_available_airlines(_) do
-    Enum.map(@airlines, &Map.get(&1,:name))
+  def get_available_airlines() do
+    Enum.map(@airlines, &Map.get(&1, :name))
   end
 end

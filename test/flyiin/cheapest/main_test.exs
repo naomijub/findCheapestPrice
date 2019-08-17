@@ -28,9 +28,13 @@ defmodule Flyiin.Cheapest.MainTest do
 
   describe "fetch airlines" do
     test "fetch airlines by code" do
-      expect(Flyiin.FlightMock,:post, 2, fn _, _ -> (fn -> 1 end) end)
+      expect(Flyiin.FlightMock, :post, 2, fn _, _ -> fn -> 1 end end)
 
-      assert length(Main.fetch_airlines_pricing(Airlines.get_airlines, "MUC", "LHT", "2019-03-18")) == 2
+      function_call =
+        Main.fetch_airlines_pricing(Airlines.get_airlines(), "MUC", "LHT", "2019-03-18")
+
+      assert length(function_call) == 2
+      assert [{"BA", _}, {"AFKL", _}] = function_call
     end
   end
 end
