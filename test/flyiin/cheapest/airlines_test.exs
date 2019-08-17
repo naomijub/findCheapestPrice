@@ -1,5 +1,5 @@
 defmodule Flyiin.Cheapest.AirlinesTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Flyiin.Cheapest.Airlines
 
   describe "BA" do
@@ -26,18 +26,9 @@ defmodule Flyiin.Cheapest.AirlinesTest do
     end
   end
 
-  describe "Function transformation" do
-    test "gets function for BA" do
-      assert Airlines.to_func("BA") == :ba_request_body
-    end
-
-    test "gets function for AFKL" do
-      assert Airlines.to_func("AFKL") == :af_request_body
-    end
-
-    test "function body for AFKL" do
-      fun = Airlines.to_func("AFKL");
-      assert apply(Airlines, fun, ["MUC", "LHT", "2019-03-18"]) == "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Header/><soapenv:Body xmlns=\"http://www.iata.org/IATA/EDIST/2017.1\"><AirShoppingRQ Version=\"17.1\"><Document/><Party><Sender><TravelAgencySender><Name>Test</Name><PseudoCity>PARMM211L</PseudoCity><IATA_Number>12345675</IATA_Number><AgencyID>id</AgencyID></TravelAgencySender></Sender><Recipient><ORA_Recipient><AirlineID>AF</AirlineID></ORA_Recipient></Recipient></Party><CoreQuery><OriginDestinations><OriginDestination><Departure><AirportCode>MUC</AirportCode><Date>2019-03-18</Date></Departure><Arrival><AirportCode>LHT</AirportCode></Arrival></OriginDestination></OriginDestinations></CoreQuery><Preference><CabinPreferences><CabinType><Code>1</Code></CabinType></CabinPreferences></Preference><DataLists><PassengerList><Passenger><PTC>ADT</PTC></Passenger></PassengerList></DataLists></AirShoppingRQ></soapenv:Body></soapenv:Envelope>"
+  describe "Airlines processing" do
+    test "Get available airlines" do
+      assert Airlines.get_available_airlines([]) == ["BA", "AFKL"]
     end
   end
 end
