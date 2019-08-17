@@ -13,6 +13,11 @@ defmodule FlyiinWeb.CheapestController do
     find(conn, origin, destination, departureDate)
   end
 
+  def show(conn, ctx) do
+    conn
+    |> send_resp(400, "{\"message\":\"Arguments must be origin, destination and departureDate\"}")
+  end
+
   def find(conn, origin, destination, _)
       when not (byte_size(origin) == 3) or not (byte_size(destination) == 3) do
     conn

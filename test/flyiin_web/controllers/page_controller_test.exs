@@ -47,4 +47,10 @@ defmodule FlyiinWeb.PageControllerTest do
 
     assert resp1.status == 400
   end
+
+  test "GET /findCheapestOffer with wrong arguments", %{conn: conn} do
+    resp1 = get(conn, "/findCheapestOffer/?origin=MUC&destination=GRU&date=2019-8-12")
+
+    assert resp1.status == 400
+  end
 end

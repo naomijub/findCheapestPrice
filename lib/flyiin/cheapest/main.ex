@@ -20,7 +20,11 @@ defmodule Flyiin.Cheapest.Main do
   end
 
   def cheapest_airline(airlines) do
-    airline = Enum.min_by(airlines, &Map.get(&1, :amount))
+    airline =
+      airlines
+      |> Enum.filter(fn x -> Map.get(x, :amount) >= 0 end)
+      |> Enum.min_by(&Map.get(&1, :amount))
+
     extract_json(airline)
   end
 
@@ -38,7 +42,7 @@ defmodule Flyiin.Cheapest.Main do
     |> Enum.to_list()
   end
 
-  def get_best_value(response, path, status) when status == 200 do
+  def get_best_value(response, path, status, errors) when status == 200 and errors < 1 do
     response
     |> Map.get(:body)
     |> xpath(path)
@@ -46,13 +50,14 @@ defmodule Flyiin.Cheapest.Main do
     |> Enum.min()
   end
 
-  def get_best_value(_, _, status) do
-    10_000_000_000_000_000_000_000_000_000_000_000_000
+  def get_best_value(_, _, _, _) do
+    -1
   end
 
   def process_task(task, path) do
-    task_result = Task.await(task)
-    get_best_value(task_result, path, Map.get(task_result, :status_code))
+    task_result = Task.await(task, 50000)
+    errors = task_result |> Map.get(:body) |> xpath(~x"//Error"l) |> length
+    get_best_value(task_result, path, Map.get(task_result, :status_code), errors)
   end
 
   def consolidate_best_prices(tasks) do

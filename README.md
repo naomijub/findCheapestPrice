@@ -20,6 +20,21 @@ Mox is available only for testing env.
 ## Testing
 Although I started the project from top-down, the core logic was made bottom-up, which can be easily viewed on commits. This extensive testing and change of approach made possible to remove redundant tests, but generated some extra functions, which also did not help on the pattern matching side. The bottom-up strategy made it harder to use less verbose `Task` functions, such as `async_stream`.
 
+### Amedeus responds 200 with erros
+Due to the fact tha Amadeus and Sabre may return a status code 200 but with an invalid xml, I included the following lines:
+```ex
+# Flyiin.Cheapest.Http.Main
+def get_best_value(response, path, status, errors) when status == 200 and errors < 1 do
+...
+
+def process_task(task, path) do
+  ...
+  errors = task_result |> Map.get(:body) |> xpath(~x"//Error"l) |> length
+  get_best_value(task_result, path, Map.get(task_result, :status_code), errors)
+end
+```
+This was not tested because I had no more time to work on the project, but I would just create a new factory that returns a status 200 with a body containing the tags `<Error>`. 
+
 ## Concurrency
 As this had only two requests and the xpath lib is pretty fast, the only concurrency I used was `Task.async`. The function `fetch_airlines_pricing` would be prettier if I did not have to assign values inside the map to make a request, but the general complexity would have increased. Another way I think it would be a good solution for multiple "Backend APIs" is to use `infosys`.
 
