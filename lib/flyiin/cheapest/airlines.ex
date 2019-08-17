@@ -14,7 +14,7 @@ defmodule Flyiin.Cheapest.Airlines do
         {"Content-Type", "application/xml"},
         {"Soapaction", "AirShoppingV01"}
       ],
-      body: "&Airlines.ba_request_body/3",
+      body: :ba_request_body,
       xpath: ~x".//AirlineOffers/AirlineOffer/TotalPrice/SimpleCurrencyPrice/text()"l
     },
     %{
@@ -26,7 +26,7 @@ defmodule Flyiin.Cheapest.Airlines do
         {"Content-Type", "text/xml"},
         {"api_key", "mdug6d7y75e36vvpa487j5k7"}
       ],
-      body: "&Airlines.af_request_body/3",
+      body: :af_request_body,
       xpath: ~x".//AirlineOffers/Offer/TotalPrice/DetailCurrencyPrice/Total/text()"l
     }
   ]
@@ -44,10 +44,9 @@ defmodule Flyiin.Cheapest.Airlines do
   end
 
   def to_func(airline) do
-    {fun, []} = @airlines
+    fun = @airlines
       |>Enum.find(fn x -> Map.fetch(x,:name) == {:ok,airline} end)
       |> Map.get(:body)
-      |> Code.eval_string
     fun
   end
 
