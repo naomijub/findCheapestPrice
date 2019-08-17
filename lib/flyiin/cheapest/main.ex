@@ -2,6 +2,8 @@ defmodule Flyiin.Cheapest.Main do
   @moduledoc """
   Module responsable for determine the cheapest 
   """
+  import SweetXml
+  import HTTPotion.Response
   alias Flyiin.Cheapest.Airlines
   alias Flyiin.Cheapest.Http.Main, as: HTTPm
 
@@ -27,8 +29,24 @@ defmodule Flyiin.Cheapest.Main do
     |> Enum.map(fn airline ->
       info = Enum.find(airlines, fn x -> Map.fetch(x, :name) == {:ok, airline} end)
       body = apply(Airlines, Map.get(info, :body), [origin, destination, date])
-      {airline, Task.async(HTTPm.post_args(Map.get(info, :url), body, Map.get(info, :headers)))}
+      {airline, HTTPm.post_args(Map.get(info, :url), body, Map.get(info, :headers)), Map.get(info, :xpath)}
     end)
     |> Enum.to_list()
+  end
+
+  def consolidate_best_prices(tasks) do
+    tasks
+    |> Enum.map(fn task_tuple ->
+      {code, task, path} = task_tuple
+      %{airline: code,
+        amount: task
+        |> Task.await
+        |> Map.get(:body)
+        |> xpath(path)
+        |> Enum.map(fn x -> to_string(x) |> Float.parse |> elem(0)  end)
+        |> IO.inspect
+        |> Enum.min}
+    end)
+    |> cheapest_airline()
   end
 end

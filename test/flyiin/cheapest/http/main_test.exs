@@ -5,8 +5,6 @@ defmodule Flyiin.Cheapest.Http.MainTest do
   alias Flight.Factory
   alias Flyiin.Cheapest.Http.Main
 
-  # setup :verify_on_exit!
-
   describe "Post request" do
     test "request body for SCL-> MIA 12-03-2021" do
       expected = Factory.ba_flight()
@@ -30,16 +28,6 @@ defmodule Flyiin.Cheapest.Http.MainTest do
 
       assert expected == actual
       assert Map.get(actual, :status_code) == 200
-    end
-
-    test "XML" do
-      # Factory.af_flight()
-      # |> Map.get(:body)
-      # |> xpath(~x".//AirlineOffers/Offer/TotalPrice/DetailCurrencyPrice/Total/text()"l)
-      # |> Enum.map(fn x -> to_string(x) |> Float.parse |> elem(0)  end)
-      # |> Enum.min
-      alias Flyiin.Cheapest.Airlines
-      assert true
     end
   end
 end

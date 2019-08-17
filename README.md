@@ -1,20 +1,24 @@
 # Flyiin
 
-To start your Phoenix server:
+## Makefile
+- Lint and format targets are to keep track of styling in elixir
+- test target is to run mix via make
+- run is to run app
+- outdated is to check if libs are outdated
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+## Phoenix
+The usage of Phoenix is due to the elixir community standart. I prefer to work with webserver that implement interceptor concept, like Clojure's Pedestal and Java Spark, this is due to their  ability to evolve by writing new interceptor or by changing the service configs. I have removed most of the files that are useless for an API, like views. There is a healthcheck for stabilizing purpose.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## HTTP Client
+Well, I had in mind to use `HTTPoison`, but by some typo during search of the mix deps info I started using `HTTPotion`, which was pretty good for this low demand service.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Mox
+I used `Mox` to mock the request make to the apis, this helped develop as also focus on testing
+Factory class was used to return the soap responses from the API. I removed unused lines of XML to reduce garbage.
+Mox is available only for testing env.
 
-## Learn more
+## Testing
+Although I started the project from top-down, the core logic was made bottom-up, which can be easily viewed on commits. This extensive testing and change of approach made possible to remove redundant tests, but generated some extra functions, which also did not help on the pattern matching side. The bottom-up strategy made it harder to use less verbose `Task` functions, such as `async_stream`.
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+## Concurrency
+As this had only two requests and the xpath lib is pretty fast, the only concurrency I used was `Task.async`. The function `fetch_airlines_pricing` would be prettier if I did not have to assign values inside the map to make a request, but the general complexity would have increased.
