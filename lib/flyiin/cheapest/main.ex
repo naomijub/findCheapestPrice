@@ -44,9 +44,14 @@ defmodule Flyiin.Cheapest.Main do
         |> Map.get(:body)
         |> xpath(path)
         |> Enum.map(fn x -> to_string(x) |> Float.parse |> elem(0)  end)
-        |> IO.inspect
         |> Enum.min}
     end)
     |> cheapest_airline()
+  end
+
+  def find(origin, destination, date) do
+    Airlines.get_airlines
+    |> fetch_airlines_pricing(origin, destination, date)
+    |> consolidate_best_prices 
   end
 end

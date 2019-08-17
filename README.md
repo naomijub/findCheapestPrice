@@ -7,7 +7,7 @@
 - outdated is to check if libs are outdated
 
 ## Phoenix
-The usage of Phoenix is due to the elixir community standart. I prefer to work with webserver that implement interceptor concept, like Clojure's Pedestal and Java Spark, this is due to their  ability to evolve by writing new interceptor or by changing the service configs. I have removed most of the files that are useless for an API, like views. There is a healthcheck for stabilizing purpose.
+The usage of Phoenix is due to the elixir community standart. I prefer to work with webserver that implement interceptor concept, like Clojure's Pedestal and Java Spark, this is due to their  ability to evolve by writing new interceptor or by changing the service configs. I have removed most of the files that are useless for an API, like views. There is a healthcheck for stabilizing purpose. Due to the usage of scope and routing pattern, the path is `/findCheapestOffer/?origin=<IATA>&destination=<IATA>&departureDate=<DATE>`
 
 ## HTTP Client
 Well, I had in mind to use `HTTPoison`, but by some typo during search of the mix deps info I started using `HTTPotion`, which was pretty good for this low demand service.
@@ -22,3 +22,11 @@ Although I started the project from top-down, the core logic was made bottom-up,
 
 ## Concurrency
 As this had only two requests and the xpath lib is pretty fast, the only concurrency I used was `Task.async`. The function `fetch_airlines_pricing` would be prettier if I did not have to assign values inside the map to make a request, but the general complexity would have increased.
+
+obs. AFKL API was having problems to respond.
+
+# TODO
+- [ ] Request date is incorrectly formated -> 403
+- [ ] Request iatas dont have 3 letters -> 403
+- [ ] Task return != 2xx for one request
+- [ ] Task return != 2xx for all request -> 204

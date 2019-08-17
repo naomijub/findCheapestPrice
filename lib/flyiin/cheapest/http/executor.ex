@@ -9,6 +9,6 @@ defmodule Flyiin.Cheapest.Http.Executor do
 
   @impl Behaviour
   def post(url, opts) do
-    Task.async(HTTPotion.post(url, opts))
+    Task.async(fn -> HTTPotion.post(url, opts) end)
   end
 end
