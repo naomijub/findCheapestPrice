@@ -21,12 +21,15 @@ Mox is available only for testing env.
 Although I started the project from top-down, the core logic was made bottom-up, which can be easily viewed on commits. This extensive testing and change of approach made possible to remove redundant tests, but generated some extra functions, which also did not help on the pattern matching side. The bottom-up strategy made it harder to use less verbose `Task` functions, such as `async_stream`.
 
 ## Concurrency
-As this had only two requests and the xpath lib is pretty fast, the only concurrency I used was `Task.async`. The function `fetch_airlines_pricing` would be prettier if I did not have to assign values inside the map to make a request, but the general complexity would have increased.
+As this had only two requests and the xpath lib is pretty fast, the only concurrency I used was `Task.async`. The function `fetch_airlines_pricing` would be prettier if I did not have to assign values inside the map to make a request, but the general complexity would have increased. Another way I think it would be a good solution for multiple "Backend APIs" is to use `infosys`.
+
+## Security
+I forgot in the first commit to read the `api_keys` from the `env_vars`, as they will expire and have limited, I am not so worried about their public usage.
 
 obs. AFKL API was having problems to respond.
 
 # TODO
-- [ ] Request date is incorrectly formated -> 403
-- [ ] Request iatas dont have 3 letters -> 403
+- [ ] Request date is incorrectly formated -> 400
+- [ ] Request iatas dont have 3 letters -> 400
 - [ ] Task return != 2xx for one request
 - [ ] Task return != 2xx for all request -> 204
